@@ -1,18 +1,18 @@
-var harvester = require('harvester');
-var builder = require('builder');
-var guard = require('guard');
-var transporter = require('transporter');
+var harvester = require('role_harvester');
+var builder = require('role_builder');
+var guard = require('role_guard');
+var transporter = require('role_transporter');
 
 var harvesters_count = 0;
 var harvesters_needed = 1;
 var transporters_count = 0;
-var transporters_needed = 1;
+var transporters_needed = 4;
 var harvesters1_count = 0;
-var harvesters1_needed = 2;
+var harvesters1_needed = 3;
 var builders_count = 0;
-var builders_needed = 0;
+var builders_needed = 3;
 var guards_count = 0;
-var guards_needed = 5;
+var guards_needed = 0;
 
 var transporters = {};
 for(var name in Game.creeps) 
@@ -61,35 +61,41 @@ if (is_spawn_free)
 {
     var body;
     var role = "";
-    var num = 0;
     if (harvesters_count < harvesters_needed)
     {
-        num = harvesters_count; body = [WORK, MOVE]; role = "harvester"; // 150
+        body = [WORK, MOVE]; role = "harvester"; // 150
     }
     else if (transporters_count < transporters_needed)
     {
-        num = transporters_count; body = [CARRY, MOVE]; role = "transporter"; // 100
+        body = [CARRY, MOVE]; role = "transporter"; // 100
     }
     else if (harvesters_count < harvesters1_needed)
     {
-        num = harvesters_count; body = [WORK, WORK, MOVE]; role = "harvester"; // 250
+        body = [WORK, WORK, MOVE]; role = "harvester"; // 250
     }
     else if (builders_count < builders_needed)
     {
-        num = builders_count; body = [WORK, CARRY, CARRY, MOVE, MOVE]; role = "builder"; // 300
+        body = [WORK, WORK, CARRY, MOVE]; role = "builder"; // 300
     }
     else if (guards_count < guards_needed)
     {
-        num = guards_count; body = [TOUGH, ATTACK, MOVE, MOVE]; role = "guard"; // 190
+        body = [TOUGH, ATTACK, MOVE, MOVE]; role = "guard"; // 190
     }
 
     if(role != "")
     {
-        var res = spawn.createCreep( body, role + num, { role: role } );
+        var i = 0;
+        var name = role+i;
+        while(Game.creeps[name] !== undefined) {
+            i++;
+            name = role+i;
+        }
+        
+        var res = spawn.createCreep( body, name, { role: role } );
         if ( res == OK)
             console.log("Spawning new " + role);
         else if (res == ERR_NAME_EXISTS)
-            console.log("Name: '" + role + num +"' have been taken");
+            console.log("Name: '" + role + num +"' existed");
     }
 }
 
@@ -103,5 +109,9 @@ if(Memory.inited == undefined || !Memory.inited)
 Memory.steps++;
 if (Memory.steps%10 == 0)
     console.log("Energy: " + Memory.energy + " Steps: "+ Memory.steps + " Harvesters: " + (harvesters_count+harvesters1_count) + " Averange: " + Memory.energy/Memory.steps);
+
+
+
+
 
 

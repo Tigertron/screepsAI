@@ -15,5 +15,6 @@ module.exports = function(creep, energy)
     	creep.moveTo(energy);
     	creep.pickup(energy);
     }
-    creep.say(creep.carry.energy);
+    if(creep.carry.energy)
+        creep.say(creep.carry.energy);
 }
