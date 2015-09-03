@@ -13,7 +13,7 @@ var getPrivateSettings = function(grunt) {
         "    screeps: {\n" +
         "        options: {\n" +
         "            email: null,\n" +
-        "            settings: null,\n" +
+        "            password: null,\n" +
         "            branch: \"default\"\n" +
         "        }\n" +
         "    }\n" +
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
         screeps: {
             options: {},
             dist: {
-                src: ['src/*.js']
+                src: ['./src/*.js']
             }
         },
         screepsCodeGenerator: {
