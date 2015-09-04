@@ -109,7 +109,8 @@ module.exports = function(grunt) {
         screeps: {
             options: {},
             dist: {
-                src: ['./src/*.js']
+                src: ['./test_scripts/*.js']
+				//src: ['./src/*.js']
             }
         },
         screepsCodeGenerator: {
@@ -132,7 +133,11 @@ module.exports = function(grunt) {
         'mochaTest:test'
     ]);
 
-    grunt.task.registerTask('deploy', [
+    grunt.task.registerTask('deploytest', [
+        'screeps'
+    ]);
+	
+	grunt.task.registerTask('deploy', [
         'codegen',
         'screeps'
     ]);
